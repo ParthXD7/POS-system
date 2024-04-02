@@ -1,3 +1,3 @@
-# JavaGame
+# POS SYSTEM
 
 # Coming Soon....!!!
