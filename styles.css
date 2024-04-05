@@ -1,5 +1,7 @@
 /* Global styles */
-body {
+body , main {
+    display: flex;
+    flex-direction: column;
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
     margin: 0;
@@ -148,4 +150,65 @@ tbody td {
 
 .submit-button:hover {
     background-color: #555;
+}
+
+form {
+    margin: 2rem 0;
+}
+
+.page-footer {
+    margin-top: auto;
+}
+.container {
+    margin-top: 10px;
+    flex: 1;
+}
+
+table.striped > tbody > tr:nth-child(odd) {
+    background-color: #f2f2f2 !important;
+}
+
+table.highlight > tbody > tr:hover {
+    background-color: #efefef !important;
+}
+
+/* Adjustments for the Select2 component */
+.select2-container .select2-selection--single {
+    height: auto;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered {
+    line-height: normal;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 600px) {
+    .nav-wrapper a {
+        font-size: 1rem;
+    }
+}
+
+table.striped > tbody > tr:nth-child(odd) {
+    background-color: #f2f2f2 !important;
+}
+
+table.highlight > tbody > tr:hover {
+    background-color: #efefef !important;
+}
+
+.containerS {
+    margin-top: 50px;
+    padding: 20px;
+    background-color: white; /* White background for the form area */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Adding some shadow for depth */
+}
+
+.btn {
+    background-color: #ee6e73; /* Custom color for the button */
+}
+
+.input-field label {
+    color: #ee6e73; /* Custom color for the input labels */
 }

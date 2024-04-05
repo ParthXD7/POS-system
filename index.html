@@ -6,23 +6,35 @@
     <title>Point of Sale System</title>
     <link rel="stylesheet" type="text/css" href="styles.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 </head>
+
 <body>
     <header>
-        <h1>Point of Sale System</h1>
-        <nav>
-            <ul class="menu">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="bill.php">Billing</a></li>
-                <li><a href="customer.php">Customers</a></li>
-                <li><a href="product.php">Inventory</a></li>
-            </ul>
-        </nav>
+        <div class="navbar-fixed">
+            <nav class="teal lighten-2">
+                <div class="nav-wrapper">
+                    <a href="#!" class="brand-logo center">Point Of Sale</a>
+                    <ul class="left hide-on-med-and-down">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="bill.php">Billing</a></li>
+                        <li><a href="customer.php">Customers</a></li>
+                        <li><a href="product.php">Inventory</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
     </header>
     
-    <div class="chart-container" style="width: 300px; height: 300px;"> <!-- Adjusted size of chart container -->
-        <canvas id="myPieChart"></canvas>
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m6 offset-m3">
+                <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+                    <canvas id="myPieChart"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
     
     <footer>

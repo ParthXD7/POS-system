@@ -43,43 +43,73 @@ $result = $stmt->get_result();
 // Close database connection
 $conn->close();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Add Product</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 <body>
+
 <header>
-<h1>Manage Inventory</h1>
-    <nav>
-        <ul class="menu">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="bill.php">Billing</a></li>
-            <li><a href="customer.php">Customers</a></li>
-            <li><a href="product.php">Inventory</a></li>
-        </ul>
-    </nav>
+        <div class="navbar-fixed">
+            <nav class="teal lighten-2">
+                <div class="nav-wrapper">
+                    <a href="#!" class="brand-logo center">Inventory</a>
+                    <ul class="left hide-on-med-and-down">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="bill.php">Billing</a></li>
+                        <li><a href="customer.php">Customers</a></li>
+                        <li><a href="product.php">Inventory</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
 
-</header>
-
-<main>
-    <form action="product.php" method="post" class="form-group">
-        <input type="text" id="name" name="name" placeholder="Product Name" required><br>
-        <input type="number" id="price" name="price" step="0.01" placeholder="Product Price" required><br>
-        <input type="number" id="quantity" name="quantity" placeholder="Quantity" required><br>
-        <input type="text" id="sku" name="sku" placeholder="SKU" required><br>
-        <input type="submit" value="Add Product">
+<main class="container">
+    <h2>Add New Product</h2>
+    <form action="product.php" method="post">
+        <div class="input-field">
+            <input type="text" id="name" name="name" required>
+            <label for="name">Product Name</label>
+        </div>
+        <div class="input-field">
+            <input type="number" id="price" name="price" step="0.01" required>
+            <label for="price">Product Price ($)</label>
+        </div>
+        <div class="input-field">
+            <input type="number" id="quantity" name="quantity" required>
+            <label for="quantity">Quantity</label>
+        </div>
+        <div class="input-field">
+            <input type="text" id="sku" name="sku" required>
+            <label for="sku">SKU</label>
+        </div>
+        <button class="btn waves-effect waves-light" type="submit">Add Product
+            <i class="material-icons right">add</i>
+        </button>
     </form>
 
-    <form action="product.php" method="get" class="form-group">
-        <input type="text" name="search" placeholder="Search products" value="<?php echo $search; ?>">
-        <input type="submit" value="Search">
+    <h2>Search Products</h2>
+    <form action="product.php" method="get">
+        <div class="input-field">
+            <input type="text" name="search" id="search">
+            <label for="search">Search Products</label>
+        </div>
+        <button class="btn waves-effect waves-light" type="submit">Search
+            <i class="material-icons right">search</i>
+        </button>
     </form>
 
-    <!-- Products list -->
+    <!-- Products list display -->
+    <h2>Product List</h2>
+    <!-- PHP logic to check and display products would go here -->
+    <!-- Sample static table structure -->
     <?php
     if ($result->num_rows > 0) {
         echo "<table><tr><th>Product Name</th><th>Price</th><th>Quantity</th><th>SKU</th><th>Edit</th><th>Delete</th></tr>";
@@ -100,9 +130,19 @@ $conn->close();
     ?>
 </main>
 
-<footer>
-    &copy; 2024 Product Management System
+<footer class="page-footer teal darken-2">
+    <div class="container">
+        &copy; 2024 Product Management System
+    </div>
 </footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('select');
+        M.FormSelect.init(elems);
+    });
+</script>
 
 </body>
 </html>
+

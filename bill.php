@@ -111,106 +111,123 @@ function generatePDF($customerName, $phoneNumber, $cart) {
 }
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Generate Bill</title>
-    <!-- Add your stylesheet link here -->
-    <!-- Link to Select2 CSS -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <title>Billing System</title>
 <link rel="stylesheet" type="text/css" href="styles.css" />
-
-<!-- Link to jQuery (necessary for Select2) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
 <!-- Link to Select2 JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+ <style>
+        .container { margin-top: 20px; }
+        .remove-button, .submit-button { margin-top: 20px; }
+        footer { padding: 20px 0; text-align: center; }
+    </style>
 </head>
 <body>
 <header>
-        <h1>Billing</h1>
-        <nav>
-        <ul class="menu">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="bill.php">Billing</a></li>
-            <li><a href="customer.php">Customers</a></li>
-            <li><a href="product.php">Inventory</a></li>
-        </ul>
-    </nav>
-
+        <div class="navbar-fixed">
+            <nav class="teal lighten-2">
+                <div class="nav-wrapper">
+                    <a href="#!" class="brand-logo center">Billing</a>
+                    <ul class="left hide-on-med-and-down">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="bill.php">Billing</a></li>
+                        <li><a href="customer.php">Customers</a></li>
+                        <li><a href="product.php">Inventory</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
     </header>
     <!-- Customer Details and Product Addition Form -->
-    <form action="bill.php" method="post"class="form-group">
-    <label for="phone">Phone Number:</label>
-<input type="tel" id="phone" name="phone">
+    <div class="container">
+    <h2>Billing System</h2>
+    <form action="bill.php" method="post" class="col s12">
+        <div class="row">
+            <div class="input-field col s6">
+                <input type="tel" id="phone" name="phone" class="validate">
+                <label for="phone">Phone Number:</label>
+            </div>
+            <div class="input-field col s6">
+                <input type="text" id="customer_name" name="customer_name" readonly>
+                <label for="customer_name">Customer Name:</label>
+            </div>
+        </div>
 
-<label for="customer_name">Customer Name:</label>
-<input type="text" id="customer_name" name="customer_name" readonly>
-
+        <div class="row">
+    <div class="input-field col s12">
+        <select id="product" name="product" class="select2-active">
+            <?php foreach ($products as $id => $product): ?>
+                <option value="<?php echo htmlspecialchars($id); ?>" data-quantity="<?php echo htmlspecialchars($product['quantity']); ?>" <?php echo ($product['quantity'] == 0) ? 'disabled' : ''; ?>>
+                    <?php echo htmlspecialchars($product['sku'] . ' ' . $product['name'] . ' - Quantity: ' . $product['quantity']); ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
         <label for="product">Product:</label>
+    </div>
+</div>
 
-        <select id="product" name="product" onchange="updateMaxQuantity()">
-    <?php foreach ($products as $id => $product): ?>
-        <option value="<?php echo htmlspecialchars($id); ?>"
-                data-quantity="<?php echo htmlspecialchars($product['quantity']); ?>"
-                <?php echo ($product['quantity'] == 0) ? 'disabled' : ''; ?>
-                style="color: <?php echo ($product['quantity'] < 10 && $product['quantity'] > 0) ? 'red' : 'initial'; ?>">
-            <?php echo htmlspecialchars($product['sku']  .' ' . $product['name'] . ' - Quantity: ' . $product['quantity']); ?>
-        </option>
-    <?php endforeach; ?>
-</select>
+            <div class="input-field col s6">
+                <input type="number" id="quantity" name="quantity" value="1" min="1" max="100">
+                <label for="quantity">Quantity:</label>
 
+        </div>
 
-
-        <label for="quantity">Quantity:</label>
-        <input type="number" id="quantity" name="quantity" value="1" min="1" max="100"> <!-- Initial max value can be any placeholder -->
-
-        <input type="submit" name="add_to_cart" value="Add to Cart">
-        <input type="submit" name="generate_bill" value="Generate Bill" id="generate_bill_btn">
-
+        <button type="submit" name="add_to_cart" class="btn waves-effect waves-light" value="Add to Cart">Add to Cart<i class="material-icons right">add_shopping_cart</i></button>
+        <button type="submit" name="generate_bill" class="btn waves-effect waves-light" value="Generate Bill" id="generate_bill_btn">Generate Bill<i class="material-icons right">receipt</i></button>
     </form>
 
     <!-- Cart Display and Item Management -->
     <?php if (!empty($_SESSION['cart'])): ?>
-        <form action="bill.php" method="post" >
-    <table>
-        <thead>
-            <tr>
-                <th>Product Name</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Total</th>
-                <th>Remove</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($_SESSION['cart'] as $id => $item): ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($item['name']); ?></td>
-                    <td>
-                        <input type="number" name="quantities[<?php echo $id; ?>]" value="<?php echo $item['qty']; ?>" min="1" class="quantity-input">
-                    </td>
-                    <td>$<?php echo number_format($item['price'], 2); ?></td>
-                    <td>$<?php echo number_format($item['qty'] * $item['price'], 2); ?></td>
-                    <td>
-                        <button type="submit" name="remove" value="<?php echo $id; ?>" class="remove-button">Remove</button>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-            <tr>
-                <td colspan="3" class="total-label">Total Amount:</td>
-                <td>$<?php echo number_format($totalAmount, 2); ?></td>
-            </tr>
-        </tbody>
-    </table>
-    <input type="submit" name="update_cart" value="Update Cart" class="submit-button">
-</form>
-<footer>
-        <p>&copy; 2024 Point of Sale System. All rights reserved.</p>
-    </footer>
+        <form action="bill.php" method="post">
+            <table class="highlight">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($_SESSION['cart'] as $id => $item): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($item['name']); ?></td>
+                            <td>
+                                <input type="number" name="quantities[<?php echo $id; ?>]" value="<?php echo $item['qty']; ?>" min="1" class="validate">
+                            </td>
+                            <td>$<?php echo number_format($item['price'], 2); ?></td>
+                            <td>$<?php echo number_format($item['qty'] * $item['price'], 2); ?></td>
+                            <td>
+                                <button type="submit" name="remove" value="<?php echo $id; ?>" class="btn waves-effect waves-light red">Remove<i class="material-icons right">delete</i></button>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    <tr>
+                        <td colspan="3" class="total-label"><strong>Total Amount:</strong></td>
+                        <td colspan="2">$<?php echo number_format($totalAmount, 2); ?></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="submit" name="update_cart" class="btn waves-effect waves-light" value="Update Cart">Update Cart<i class="material-icons right">update</i></button>
+        </form>
     <?php endif; ?>
+</div>
+
+<footer>
+    &copy; 2024 Point of Sale System. All rights reserved.
+</footer>
+
     <script>
         document.getElementById('generate_bill_btn').addEventListener('click', function(event) {
     var phone = document.getElementById('phone').value;
@@ -219,10 +236,24 @@ function generatePDF($customerName, $phoneNumber, $cart) {
         event.preventDefault(); // Prevent form submission
     }
 });
-$(document).ready(function() {
-    $('#product').select2();
-});
 
+$(document).ready(function() {
+    $('select.select2-active').select2({
+        dropdownAutoWidth: true,
+        width: '100%', // Ensures Select2 spans the full width of its parent
+        theme: "classic" // A simple, classic theme to blend in with Materialize design
+    });
+
+    // Reinitialize Materialize labels and inputs
+    M.updateTextFields();
+    // Adjust for Materialize select overlap issue
+    $('select.select2-active').on('select2:opening', function (e) {
+        $(this).parent().find('label').addClass('active');
+    });
+});
+    // $(document).ready(function() {
+    //     $('#product').select2();
+    // });
 
 document.getElementById('phone').addEventListener('input', function() {
     var phone = this.value;

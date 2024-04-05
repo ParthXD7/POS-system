@@ -52,29 +52,61 @@ if (isset($_GET['id']) && !empty(trim($_GET['id']))) {
     exit();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Edit Product</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
     <div class="container">
         <h2>Edit Product</h2>
-        <form action="edit_product.php" method="post">
+        <form action="edit_product.php" method="post" class="col s12">
             <input type="hidden" name="id" value="<?php echo $id; ?>">
-            <label for="name">Name:</label><br>
-            <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>"><br><br>
-            <label for="price">Price:</label><br>
-            <input type="number" id="price" name="price" step="0.01" value="<?php echo htmlspecialchars($price); ?>"><br><br>
-            <label for="quantity">Quantity:</label><br>
-            <input type="number" id="quantity" name="quantity" value="<?php echo htmlspecialchars($quantity); ?>"><br><br>
-            <label for="sku">SKU:</label><br>
-            <input type="text" id="sku" name="sku" value="<?php echo htmlspecialchars($sku); ?>"><br><br>
-            <input type="submit" value="Update Product">
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>">
+                    <label for="name">Name</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <input type="number" id="price" name="price" step="0.01" value="<?php echo htmlspecialchars($price); ?>">
+                    <label for="price">Price</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <input type="number" id="quantity" name="quantity" value="<?php echo htmlspecialchars($quantity); ?>">
+                    <label for="quantity">Quantity</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <input type="text" id="sku" name="sku" value="<?php echo htmlspecialchars($sku); ?>">
+                    <label for="sku">SKU</label>
+                </div>
+            </div>
+
+            <button class="btn waves-effect waves-light" type="submit" name="action">Update Product
+                <i class="material-icons right">update</i>
+            </button>
         </form>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        // Initialize Materialize components
+        document.addEventListener('DOMContentLoaded', function() {
+            M.updateTextFields(); // Ensure labels float correctly
+        });
+    </script>
 </body>
 </html>
