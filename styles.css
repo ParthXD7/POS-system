@@ -1,0 +1,151 @@
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    margin: 0;
+}
+
+nav {
+    text-align: center;
+}
+
+.menu {
+    list-style-type: none;
+    padding: 0;
+}
+
+.menu li {
+    display: inline;
+    margin-right: 10px;
+}
+
+.menu li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+main {
+    padding: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    max-width: 300px; /* Limit form width */
+    margin: 0 auto; /* Center align form */
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333; /* Darken label color */
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="submit"] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-top: 5px;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"] {
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+input[type="submit"] {
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #555;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px; /* Adjust table margin */
+}
+
+th, td {
+    padding: 12px; /* Adjust cell padding */
+    border: 1px solid #ddd;
+    text-align: left; /* Align text to the left */
+}
+
+thead th {
+    background-color: #333; /* Header background color */
+    color: #fff; /* Header text color */
+}
+
+tbody td {
+    text-align: center; /* Center align text in body cells */
+}
+
+.total-label {
+    text-align: right; /* Align total label text to the right */
+}
+
+/* Form Input Styles */
+.quantity-input, .remove-button, .submit-button {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.remove-button {
+    background-color: #ff4d4d; /* Remove button background color */
+    color: #fff; /* Remove button text color */
+    border: none;
+    cursor: pointer;
+}
+
+.remove-button:hover {
+    background-color: #cc0000; /* Change background color on hover */
+}
+
+.submit-button {
+    margin-top: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #555;
+}

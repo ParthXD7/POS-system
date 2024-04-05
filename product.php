@@ -48,44 +48,61 @@ $conn->close();
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- Additional meta tags -->
     <title>Add Product</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Embedded styles moved to style.css -->
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    <a href="index.html" class="back-to-home">Back to Home</a>
-    <header>
-        <h1>Add Product</h1>
-    </header>
-    <main>
-        <form action="product.php" method="post">
-            <!-- Form fields for name, price, quantity, and SKU -->
-            <input type="text" id="name" name="name" placeholder="Product Name"><br>
-            <input type="number" id="price" name="price" step="0.01" placeholder="Product Price"><br>
-            <input type="number" id="quantity" name="quantity" placeholder="Quantity"><br>
-            <input type="text" id="sku" name="sku" placeholder="SKU"><br>
-            <input type="submit" value="Add Product">
-        </form>
-        
-        <!-- Search form -->
-        <form action="product.php" method="get">
-            <input type="text" name="search" placeholder="Search products" value="<?php echo $search; ?>">
-            <input type="submit" value="Search">
-        </form>
+<header>
+<h1>Manage Inventory</h1>
+    <nav>
+        <ul class="menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="bill.php">Billing</a></li>
+            <li><a href="customer.php">Customers</a></li>
+            <li><a href="product.php">Inventory</a></li>
+        </ul>
+    </nav>
 
-        <!-- Products list -->
-        <?php
-        if ($result->num_rows > 0) {
-            echo "<ul>";
-            while($row = $result->fetch_assoc()) {
-                echo "<li>" . $row["name"] . " - $" . $row["price"] . " - Quantity: " . $row["quantity"] . " - SKU: " . $row["sku"] . "</li>";
-            }
-            echo "</ul>";
-        } else {
-            echo "No products found";
+</header>
+
+<main>
+    <form action="product.php" method="post" class="form-group">
+        <input type="text" id="name" name="name" placeholder="Product Name" required><br>
+        <input type="number" id="price" name="price" step="0.01" placeholder="Product Price" required><br>
+        <input type="number" id="quantity" name="quantity" placeholder="Quantity" required><br>
+        <input type="text" id="sku" name="sku" placeholder="SKU" required><br>
+        <input type="submit" value="Add Product">
+    </form>
+
+    <form action="product.php" method="get" class="form-group">
+        <input type="text" name="search" placeholder="Search products" value="<?php echo $search; ?>">
+        <input type="submit" value="Search">
+    </form>
+
+    <!-- Products list -->
+    <?php
+    if ($result->num_rows > 0) {
+        echo "<table><tr><th>Product Name</th><th>Price</th><th>Quantity</th><th>SKU</th><th>Edit</th><th>Delete</th></tr>";
+        while($row = $result->fetch_assoc()) {
+            echo "<tr>
+                    <td>" . htmlspecialchars($row["name"]) . "</td>
+                    <td>$" . htmlspecialchars($row["price"]) . "</td>
+                    <td>" . htmlspecialchars($row["quantity"]) . "</td>
+                    <td>" . htmlspecialchars($row["sku"]) . "</td>
+                    <td><a href='edit_product.php?id=" . $row["id"] . "'>Edit</a></td>
+                    <td><a href='delete_product.php?id=" . $row["id"] . "' onclick='return confirm(\"Are you sure you want to delete this product?\")'>Delete</a></td>
+                  </tr>";
         }
-        ?>
-    </main>
+        echo "</table>";
+    } else {
+        echo "No products found";
+    }
+    ?>
+</main>
+
+<footer>
+    &copy; 2024 Product Management System
+</footer>
+
 </body>
 </html>

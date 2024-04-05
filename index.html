@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Point of Sale System</title>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+    <header>
+        <h1>Point of Sale System</h1>
+        <nav>
+            <ul class="menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="bill.php">Billing</a></li>
+                <li><a href="customer.php">Customers</a></li>
+                <li><a href="product.php">Inventory</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <div class="chart-container" style="width: 300px; height: 300px;"> <!-- Adjusted size of chart container -->
+        <canvas id="myPieChart"></canvas>
+    </div>
+    
+    <footer>
+        <p>&copy; 2024 Point of Sale System. All rights reserved.</p>
+    </footer>
+    <script>
+        const data = {
+            labels: [
+                'Total Users',
+                'Total Items',
+                //'Category C'
+            ],
+            datasets: [{
+                label: 'POS',
+                data: [500, 50], // Example static data
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)', // Red
+                    'rgba(54, 162, 235, 0.2)', // Blue
+                    'rgba(255, 205, 86, 0.2)' // Yellow
+                ],
+                borderColor: [
+                    'rgb(255, 99, 132)', // Red
+                    'rgb(54, 162, 235)', // Blue
+                    'rgb(255, 205, 86)' // Yellow
+                ],
+                borderWidth: 1
+            }]
+        };
+        
+        const config = {
+            type: 'pie',
+            data: data,
+            options: {
+                responsive: false, // Disabled responsiveness
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Pie Chart Example'
+                    }
+                }
+            },
+        };
+        
+        const myPieChart = new Chart(
+            document.getElementById('myPieChart'),
+            config
+        );
+        </script>
+        
+</body>
+</html>
