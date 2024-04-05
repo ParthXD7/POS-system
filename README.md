@@ -23,8 +23,7 @@ Welcome to the Point of Sale (POS) System! This system is designed to streamline
 1. Clone this repository to your local machine.
 2. Set up a PHP development environment.
 3. Import the SQL database file to set up the database schema.
-4. Update database configuration in `config.php`.
-5. Start the server and navigate to the project directory in your web browser.
+4. Start the server and navigate to the project directory in your web browser.
 
 ## Usage 📝
 
