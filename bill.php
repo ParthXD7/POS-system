@@ -42,47 +42,53 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['cart'][$productId]['qty'] = $quantity;
             }
         }
-    } elseif (isset($_POST['generate_bill'])) {
+    }elseif (isset($_POST['generate_bill'])) {
         $phoneNumber = $_POST['phone'] ?? '';
-        // Assuming customer's name is also sent via POST. Adjust as needed.
         $customerName = $_POST['customer_name'] ?? 'Unknown';
         if (empty($phoneNumber)) {
-            // Handle the case where phone number is not provided. You might want to set an error message here.
             $error = "Please enter a phone number to generate the bill.";
         } else {
-            // Your existing logic for generating the bill, assuming phone number is available....
+            // Prepare the details as JSON
+            $cartDetails = [];
+            $totalAmount = 0;
             foreach ($_SESSION['cart'] as $productId => $item) {
-                $newQty = // Fetch the current quantity from the database and subtract $item['qty']
+                $subtotal = $item['qty'] * $item['price'];
+                $totalAmount += $subtotal;
+                $cartDetails[] = [
+                    'product_id' => $productId,
+                    'item_name' => $item['name'],
+                    'quantity' => $item['qty'],
+                    'price' => $item['price'],
+                    'subtotal' => $subtotal
+                ];
+            }
+    
+            $detailsJson = json_encode($cartDetails);  // Encode the array as JSON
+    
+            // Insert billing information into database
+            $insertStmt = $conn->prepare("INSERT INTO billing (customer_name, phone_number, details, total_amount) VALUES (?, ?, ?, ?)");
+            $insertStmt->bind_param("sssd", $customerName, $phoneNumber, $detailsJson, $totalAmount);
+            $insertStmt->execute();
+            $billingId = $conn->insert_id;
+            $insertStmt->close();
+    
+            // Update product quantities
+            foreach ($_SESSION['cart'] as $productId => $item) {
                 $updateStmt = $conn->prepare("UPDATE products SET quantity = quantity - ? WHERE id = ?");
                 $updateStmt->bind_param("ii", $item['qty'], $productId);
                 $updateStmt->execute();
                 $updateStmt->close();
             }
+    
+            // Generate PDF and reset cart
+            generatePDF($customerName, $phoneNumber, $_SESSION['cart'], $totalAmount);
+            unset($_SESSION['cart']); // Clear cart after generating bill
+            // Redirect or display a message here as needed
         }
-
-        // Check for existing customer or add new one
-        $stmt = $conn->prepare("SELECT id FROM customers WHERE Phone = ?");
-        $stmt->bind_param("s", $phoneNumber);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if ($result->num_rows == 0) {
-            // Insert new customer
-            $insertStmt = $conn->prepare("INSERT INTO customers (Name, Phone) VALUES (?, ?)");
-            $insertStmt->bind_param("ss", $customerName, $phoneNumber);
-            $insertStmt->execute();
-            $customerId = $conn->insert_id;
-            $insertStmt->close();
-        } else {
-            $customer = $result->fetch_assoc();
-            $customerId = $customer['id'];
-        }
-        $stmt->close();
-        
-        // Generate PDF and reset cart
-        generatePDF($customerName, $phoneNumber, $_SESSION['cart']);
-        unset($_SESSION['cart']); // Clear cart after generating bill
-        // Redirect or display a message here as needed
     }
+    
+    
+    
 
 }
 
@@ -139,7 +145,7 @@ function generatePDF($customerName, $phoneNumber, $cart) {
                 <div class="nav-wrapper">
                     <a href="#!" class="brand-logo center">Billing</a>
                     <ul class="left hide-on-med-and-down">
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.php">Home</a></li>
                         <li><a href="bill.php">Billing</a></li>
                         <li><a href="customer.php">Customers</a></li>
                         <li><a href="product.php">Inventory</a></li>

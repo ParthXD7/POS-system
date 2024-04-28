@@ -61,7 +61,7 @@ $conn->close();
                 <div class="nav-wrapper">
                     <a href="#!" class="brand-logo center">Inventory</a>
                     <ul class="left hide-on-med-and-down">
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.php">Home</a></li>
                         <li><a href="bill.php">Billing</a></li>
                         <li><a href="customer.php">Customers</a></li>
                         <li><a href="product.php">Inventory</a></li>
